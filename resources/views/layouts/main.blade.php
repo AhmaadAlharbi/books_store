@@ -36,13 +36,16 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mx-auto">
                         <li class="nav-item">
-                            <a href="#" class="nav-link">التصنيفات <i class="fas fa-list"></i></a>
+                            <a href="{{route('gallery.categories.index')}}" class="nav-link">التصنيفات <i
+                                    class="fas fa-list"></i></a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">الناشرون <i class="fas fa-table"></i></a>
+                            <a href="{{route('gallery.publishers.index')}}" class="nav-link">الناشرون <i
+                                    class="fas fa-table"></i></a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">المؤلفون <i class="fas fa-pen"></i></a>
+                            <a href="{{route('gallery.authors.index')}}" class="nav-link">المؤلفون <i
+                                    class="fas fa-pen"></i></a>
                         </li>
                         <li class="nav-item">
                             <a href="#" class="nav-link">مشترياتي <i class="fas fa-basket-shopping"></i></a>
@@ -138,7 +141,7 @@
                 </div>
             </div>
         </nav>
-        <main class="py-4">
+        <main class="py-4 bg-light">
             @yield('content')
         </main>
     </div>

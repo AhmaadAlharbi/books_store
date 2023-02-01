@@ -22,16 +22,20 @@
                 <div class="card mb-3">
                     <div>
                         <div class="card-img-actions">
-                            <img src="{{asset('storage/'.$book->cover_image)}}" class="card-img img-fluid" width="96"
-                                height="350" alt="">
+                            <a href="{{route('book.details',$book)}}">
+                                <img src="{{asset('storage/'.$book->cover_image)}}" class="card-img img-fluid"
+                                    width="96" height="350" alt="">
+
                         </div>
                     </div>
                     <div class="card-body bg-light text-center">
                         <div class="mb-2">
                             <h6 class="font-weight-semibold mb-2">
-                                <a href="#" class="text-default mb-0" data-abc="true">{{$book->title}}</a>
+                                <a href="{{route('book.details',$book)}}" class="text-default mb-0"
+                                    data-abc="true">{{$book->title}}</a>
                             </h6>
-                            <a href="#" class="text-muted" data-abc="true">
+                            <a href="{{route('gallery.categories.show',$book->category)}}" class="text-muted"
+                                data-abc="true">
                                 @if($book->category != null)
                                 {{$book->category->name}}
                                 @endif
@@ -53,7 +57,7 @@
             {{$books->links()}}
             @endforeach
             @else
-            <div class="alert alert-info" role="alert">
+            <div class="alert alert-info mt-4 mx-auto text-center" role="alert">
                 لاتوجد نتائج
             </div>
             @endif
