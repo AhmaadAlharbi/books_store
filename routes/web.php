@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\BooksController;
@@ -45,3 +46,6 @@ Route::get('/publishers/{publisher}', [PublishersController::class, 'result'])->
 Route::get('/authors', [AuthorsController::class, 'list'])->name('gallery.authors.index');
 Route::get('/authors/search', [AuthorsController::class, 'search'])->name('gallery.authors.search');
 Route::get('/authors/{author}', [AuthorsController::class, 'result'])->name('gallery.authors.show');
+
+Route::get('/admin', [AdminsController::class, 'index'])->name('admin.index');
+Route::get('/admin/books', [BooksController::class, 'index'])->name('books.index');
