@@ -34,10 +34,10 @@
                                 <a href="{{route('book.details',$book)}}" class="text-default mb-0"
                                     data-abc="true">{{$book->title}}</a>
                             </h6>
-                            <a href="{{route('gallery.categories.show',$book->category)}}" class="text-muted"
+                            <a href="{{ route('gallery.categories.show', $book->category) }}" class="text-muted"
                                 data-abc="true">
-                                @if($book->category != null)
-                                {{$book->category->name}}
+                                @if ($book->category != NULL)
+                                {{ $book->category->name }}
                                 @endif
                             </a>
                         </div>

@@ -23,6 +23,7 @@
                     <th>المؤلفون</th>
                     <th>الناشر</th>
                     <th>السعر</th>
+                    <th>خيارات</th>
                 </tr>
             </thead>
             <tbody>
@@ -41,6 +42,17 @@
                     </td>
                     <td>{{$book->publisher != null ? $book->publisher->name : ''}}</td>
                     <td>${{$book->price}}</td>
+                    <td>
+                        <a class="btn btn-info btn-sm" href="{{ route('books.edit', $book) }}"><i
+                                class="fa fa-edit"></i> تعديل</a>
+                        <form method="POST" action="" class="d-inline-block">
+                            {{-- {{ route('books.destroy', $book) }} --}}
+                            @method('delete')
+                            @csrf
+                            <button type="submit" class="btn btn-danger btn-sm"
+                                onclick="return confirm('هل أنت متأكد؟')"><i class="fa fa-trash"></i> حذف</button>
+                        </form>
+                    </td>
                 </tr>
 
                 @endforeach
