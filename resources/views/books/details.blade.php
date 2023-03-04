@@ -15,7 +15,8 @@
                     </tr>
                     <tr>
                         <th>تقييم المستخدمين</th>
-                        <td class="lead"> <span class="score">
+                        <td class="lead"> 
+                            <span class="score">
                             <div class="score-wrap">
                                 <span class="stars-active" style="width: {{ $book->rate()*20 }}%">
                                     <i class="fa fa-star"></i>
@@ -32,9 +33,11 @@
                                     <i class="fa fa-star"></i>
                                     <i class="fa fa-star"></i>
                                 </span>
-                                <span>عدد المقيمين {{$book->ratings()->count()}}</span>
                             </div>
-                        </span></td>
+                        </span>
+                        <span>عدد المقيمين {{$book->ratings()->count()}}</span>
+
+                    </td>
                     </tr>
                     @if($book->isbn)
                     <tr>
@@ -129,7 +132,6 @@
     $('.rating-star').click(function() {
         
         var submitStars = $(this).attr('data-value');
-
         $.ajax({
             type: 'post',
             url: {{ $book->id }} + '/rate',
@@ -146,4 +148,5 @@
             },
         });
     });
+    </script>
 @endsection
