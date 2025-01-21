@@ -61,6 +61,9 @@ Route::prefix('/admin')->middleware('can:update-books')->group(function () {
     Route::resource('/users', 'App\Http\Controllers\UsersController')->middleware('can:update-users');
 });
 Route::post('/card', [CartController::class, 'addToCart'])->name('cart.add');
+Route::get('/cart', [CartController::class, 'viewCart'])->name('cart.view');
+Route::post('/remove-one/{book}', [CartController::class, 'removeOne'])->name('cart.remove_one');
+Route::post('/remove-all/{book}', [CartController::class, 'removeAll'])->name('cart.remove_all');
 // Route::get('/admin/books', [BooksController::class, 'index'])->name('books.index');
 // Route::get('/admin/books/create', [BooksController::class, 'create'])->name('books.create');
 // Route::post('/admin/books', [BooksController::class, 'store'])->name('books.store');

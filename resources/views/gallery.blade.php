@@ -51,7 +51,7 @@
                                     <i class="fa fa-star" area-hidden="true"></i>
                                     <i class="fa fa-star" area-hidden="true"></i>
                                 </span>
-                                
+
                                 <span class="stars-inactive">
                                     <i class="fa fa-star" area-hidden="true"></i>
                                     <i class="fa fa-star" area-hidden="true"></i>

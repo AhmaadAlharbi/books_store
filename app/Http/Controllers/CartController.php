@@ -47,4 +47,24 @@ class CartController extends Controller
         $num_of_product = auth()->user()->booksInCart()->count();
         return response()->json(['num_of_product' => $num_of_product]);
     }
+    public function viewCart()
+    {
+        $items = auth()->user()->booksInCart;
+        return view('cart', compact('items'));
+    }
+    public function removeOne(Book $book)
+    {
+        $oldQuantity = auth()->user()->booksInCart()->where('book_id', $book->id)->first()->pivot->number_of_copies;
+        if ($oldQuantity > 1) {
+            auth()->user()->booksInCart()->updateExistingPivot($book->id, ['number_of_copies' => --$oldQuantity]);
+        } else {
+            auth()->user()->booksInCart()->detach($book->id);
+        }
+        return redirect()->back();
+    }
+    public function removeAll(Book $book)
+    {
+        auth()->user()->booksInCart()->detach($book->id);
+        return redirect()->back();
+    }
 }
