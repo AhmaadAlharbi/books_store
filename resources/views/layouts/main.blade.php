@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <!-- CSRF Token -->
-      <meta name="csrf-token" content="{{ csrf_token() }}">
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
@@ -15,24 +15,34 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" integrity="sha512-vKMx8UnXk60zUwyUnUPM3HbQo8QfmNx7+ltw8Pm5zLusl1XIfwcxo8DbWCqMGKaWeNxWA8yrx5v3SaVpMvR3CA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"
+        integrity="sha512-vKMx8UnXk60zUwyUnUPM3HbQo8QfmNx7+ltw8Pm5zLusl1XIfwcxo8DbWCqMGKaWeNxWA8yrx5v3SaVpMvR3CA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <title>مكتبة حسوب</title>
     <style>
         body {
             font-family: 'Cairo', sans-serif;
         }
+
+        .bg-cart {
+            background: #ffc107;
+            color: #fff;
+        }
+
         .score {
             display: block;
             font-size: 16px;
             position: relative;
             overflow: hidden;
         }
+
         .score-wrap {
             display: inline-block;
             position: relative;
             height: 19px;
         }
+
         .score .stars-active {
             color: #FFCA00;
             position: relative;
@@ -41,18 +51,21 @@
             overflow: hidden;
             white-space: nowrap;
         }
+
         .score .stars-inactive {
             color: lightgrey;
             position: absolute;
             top: 0;
             left: 0;
         }
+
         .rating {
             overflow: hidden;
             display: inline-block;
             position: relative;
             font-size: 20px;
         }
+
         .rating-star {
             padding: 0 5px;
             margin: 0;
@@ -60,30 +73,33 @@
             display: block;
             float: left;
         }
+
         .rating-star:after {
             position: relative;
             font-family: "Font Awesome 5 Free";
             content: '\f005';
             color: lightgrey;
         }
-        .rating-star.checked ~ .rating-star:after,
+
+        .rating-star.checked~.rating-star:after,
         .rating-star.checked:after {
             content: '\f005';
             color: #FFCA00;
         }
+
         .rating:hover .rating-star:after {
             content: '\f005';
             color: lightgrey;
         }
-        .rating-star:hover ~ .rating-star:after,
+
+        .rating-star:hover~.rating-star:after,
         .rating .rating-star:hover:after {
             content: '\f005';
             color: #FFCA00;
         }
-        
     </style>
     @yield('head')
-    
+
 </head>
 
 <body dir="rtl" style="text-align:right">
@@ -99,6 +115,20 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mx-auto">
+                        @auth
+                        <li class="nav-item">
+                            <a class="nav-link" href="/">
+                                @if (Auth::user()->booksInCart()->count() > 0)
+                                <span class="badge bg-secondary">{{Auth::user()->booksInCart()->count()}}</span>
+                                @else
+                                <span class="badge bg-secondary">0</span>
+
+                                @endif
+                                العربة
+                                <i class="fas fa-shopping-cart"></i>
+                            </a>
+                        </li>
+                        @endauth
                         <li class="nav-item">
                             <a href="{{route('gallery.categories.index')}}" class="nav-link">التصنيفات <i
                                     class="fas fa-list"></i></a>
@@ -144,7 +174,8 @@
 
                                     <div class="mt-3 space-y-1">
                                         <!-- Account Management -->
-                                        <x-jet-responsive-nav-link class="dropdown-item" href="{{ route('profile.show') }}"
+                                        <x-jet-responsive-nav-link class="dropdown-item"
+                                            href="{{ route('profile.show') }}"
                                             :active="request()->routeIs('profile.show')">
                                             {{ __('Profile') }}
                                         </x-jet-responsive-nav-link>
@@ -160,7 +191,8 @@
                                         <form method="POST" action="{{ route('logout') }}" x-data>
                                             @csrf
 
-                                            <x-jet-responsive-nav-link class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
+                                            <x-jet-responsive-nav-link class="dropdown-item"
+                                                href="{{ route('logout') }}" onclick="event.preventDefault();
                                                 this.closest('form').submit();">
                                                 {{ __('Log Out') }}
                                             </x-jet-responsive-nav-link>
@@ -220,7 +252,9 @@
     </script>
     <script src="https://kit.fontawesome.com/307148b034.js" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"
+        integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     @yield('script')
 </body>

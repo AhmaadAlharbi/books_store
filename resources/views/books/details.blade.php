@@ -9,35 +9,47 @@
             </div>
             <div class="card-body">
                 <table class="table table-stribed">
+                    @auth
+                    <div class="form text-center mb-2">
+                        <input type="hidden" id="bookId" value="{{$book->id}}">
+                        <span class="text-muted mb-3">
+                            <input class="form-control d-inline mx-auto" type="number" id="quantity" name="quantity"
+                                type="number" value="1" min="1" max="{{$book->number_of_copies}}" style="width:10%"
+                                required>
+                        </span>
+                        <button type="submit" class="btn bg-cart addCart me-2"><i class="fa fa-cart-plus"></i>اضف
+                            للسلة</button>
+                    </div>
+                    @endauth
                     <tr>
                         <th>العنوان</th>
                         <td class="lead">{{$book->title}}</td>
                     </tr>
                     <tr>
                         <th>تقييم المستخدمين</th>
-                        <td class="lead"> 
+                        <td class="lead">
                             <span class="score">
-                            <div class="score-wrap">
-                                <span class="stars-active" style="width: {{ $book->rate()*20 }}%">
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                </span>
-                                
-                                <span class="stars-inactive">
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                </span>
-                            </div>
-                        </span>
-                        <span>عدد المقيمين {{$book->ratings()->count()}}</span>
+                                <div class="score-wrap">
+                                    <span class="stars-active" style="width: {{ $book->rate()*20 }}%">
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                    </span>
 
-                    </td>
+                                    <span class="stars-inactive">
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                    </span>
+                                </div>
+                            </span>
+                            <span>عدد المقيمين {{$book->ratings()->count()}}</span>
+
+                        </td>
                     </tr>
                     @if($book->isbn)
                     <tr>
@@ -103,15 +115,25 @@
                 @auth
                 <h4>قيّم هذا الكتاب<h4>
 
-                    @if(auth()->user()->rated($book))
+                        @if(auth()->user()->rated($book))
                         <div class="rating">
-                            <span class="rating-star {{ auth()->user()->bookRating($book)->value == 5 ? 'checked' : '' }}" data-value="5"></span>
-                            <span class="rating-star {{ auth()->user()->bookRating($book)->value == 4 ? 'checked' : '' }}" data-value="4"></span>
-                            <span class="rating-star {{ auth()->user()->bookRating($book)->value == 3 ? 'checked' : '' }}" data-value="3"></span>
-                            <span class="rating-star {{ auth()->user()->bookRating($book)->value == 2 ? 'checked' : '' }}" data-value="2"></span>
-                            <span class="rating-star {{ auth()->user()->bookRating($book)->value == 1 ? 'checked' : '' }}" data-value="1"></span>
+                            <span
+                                class="rating-star {{ auth()->user()->bookRating($book)->value == 5 ? 'checked' : '' }}"
+                                data-value="5"></span>
+                            <span
+                                class="rating-star {{ auth()->user()->bookRating($book)->value == 4 ? 'checked' : '' }}"
+                                data-value="4"></span>
+                            <span
+                                class="rating-star {{ auth()->user()->bookRating($book)->value == 3 ? 'checked' : '' }}"
+                                data-value="3"></span>
+                            <span
+                                class="rating-star {{ auth()->user()->bookRating($book)->value == 2 ? 'checked' : '' }}"
+                                data-value="2"></span>
+                            <span
+                                class="rating-star {{ auth()->user()->bookRating($book)->value == 1 ? 'checked' : '' }}"
+                                data-value="1"></span>
                         </div>
-                    @else
+                        @else
                         <div class="rating">
                             <span class="rating-star" data-value="5"></span>
                             <span class="rating-star" data-value="4"></span>
@@ -119,9 +141,9 @@
                             <span class="rating-star" data-value="2"></span>
                             <span class="rating-star" data-value="1"></span>
                         </div>
-                    @endif
-    
-            @endauth
+                        @endif
+
+                        @endauth
             </div>
         </div>
     </div>
@@ -148,5 +170,30 @@
             },
         });
     });
-    </script>
+</script>
+<script>
+    $('.addCart').on('click',function(event){
+        var token = '{{ csrf_token() }}';
+        var url = '{{route('cart.add')}}';
+        event.preventDefault();
+        var bookId = $(this).parents('.form').find('#bookId').val()
+        var quantity = $(this).parents('.form').find('#quantity').val()
+        $.ajax({
+            method:'POST',
+            url:url,
+            data:{
+                quantity:quantity,
+                id:bookId,
+                _token:token
+            },
+            success:function(data){
+                $('span.badge').text(data.num_of_product);
+                toastr.success('تم اضافة الكتاب بنجاح')
+            },
+            error:function(){
+                alert('حدث خطأ');
+            }
+        })
+    })
+</script>
 @endsection

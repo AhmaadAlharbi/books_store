@@ -1,12 +1,13 @@
 <?php
 
-use App\Http\Controllers\AdminsController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\GalleryController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\BooksController;
+use App\Http\Controllers\AdminsController;
+use App\Http\Controllers\AuthorsController;
+use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\PublishersController;
-use App\Http\Controllers\AuthorsController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -59,6 +60,7 @@ Route::prefix('/admin')->middleware('can:update-books')->group(function () {
     Route::resource('/authors', 'App\Http\Controllers\AuthorsController');
     Route::resource('/users', 'App\Http\Controllers\UsersController')->middleware('can:update-users');
 });
+Route::post('/card', [CartController::class, 'addToCart'])->name('cart.add');
 // Route::get('/admin/books', [BooksController::class, 'index'])->name('books.index');
 // Route::get('/admin/books/create', [BooksController::class, 'create'])->name('books.create');
 // Route::post('/admin/books', [BooksController::class, 'store'])->name('books.store');
