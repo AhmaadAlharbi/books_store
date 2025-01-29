@@ -1,6 +1,8 @@
 @extends('layouts.main')
 @section('content')
 <div class="row justify-content-center">
+    <div id="success" style="display:none" class="col-md-8 text-center h-3 p-4 bg-success text-light rounded"> تمت عملية
+        الشراء بنجاح</div>
     <div class="col-md-12">
         <div class="card">
             <div class="card-header">
@@ -73,37 +75,50 @@
             color: 'gold',
             label: 'paypal'
         },
-        
+
         // Creates the order directly with PayPal
         createOrder: function(data, actions) {
-            return actions.order.create({
-                purchase_units: [{
-                    amount: {
-                        value: '20.00' // Replace with your amount
-                    }
-                }]
+            return fetch('/api/paypal/create-payment', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    'userId': "{{ auth()->user()->id }}"
+                })
+            })
+            .then(function(res) {
+                return res.json();
+            })
+            .then(function(orderData) {
+                return orderData.id; // Fix the typo (was orderDate)
             });
         },
 
         // Handle approved payment
         onApprove: function(data, actions) {
-    return actions.order.capture().then(function(details) {
-        // Show a success message to the user
-        alert('Transaction completed successfully by ' + details.payer.name.given_name + '!');
-
-        // Update the result message on the page
-        document.getElementById('result-message').innerHTML =
-            'Transaction completed by ' + details.payer.name.given_name;
-
-        // Log the transaction details in the console
-        console.log('Transaction details:', details);
-    }).catch(function(error) {
-        // Handle errors
-        console.error('Error capturing transaction:', error);
-        alert('An error occurred during the transaction.');
-    });
-},
-
+            return fetch('/api/paypal/execute-payment', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    'orderId': data.orderID,
+                    'userId': "{{ auth()->user()->id }}"
+                })
+            })
+            .then(function(res) {
+                return res.json();
+            })
+            .then(function(orderData) {
+                $('#success').slideDown(200); // Fix method name (was sliceDown)
+                $('.card-body').slideUp(0);
+            })
+            .catch(function(error) {
+                console.error('Error capturing transaction:', error);
+                alert('An error occurred during the transaction.');
+            });
+        },
 
         // Handle errors
         onError: function(err) {
