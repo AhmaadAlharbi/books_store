@@ -114,6 +114,7 @@
                 </table>
                 @auth
                 <h4>قيّم هذا الكتاب<h4>
+                        @if($bookfind)
 
                         @if(auth()->user()->rated($book))
                         <div class="rating">
@@ -142,7 +143,11 @@
                             <span class="rating-star" data-value="1"></span>
                         </div>
                         @endif
-
+                        @else
+                        <div class="alert alert-danger mt-4" role="alert">
+                            يحب شراء الكتاب لتستطيع تقييمه
+                        </div>
+                        @endif
                         @endauth
             </div>
         </div>
