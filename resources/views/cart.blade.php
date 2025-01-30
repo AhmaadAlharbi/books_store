@@ -3,6 +3,10 @@
 <div class="row justify-content-center">
     <div id="success" style="display:none" class="col-md-8 text-center h-3 p-4 bg-success text-light rounded"> تمت عملية
         الشراء بنجاح</div>
+    @if(session('message'))
+    <div id="success" class="col-md-8 text-center h-3 p-4 bg-success text-light rounded"> تمت عملية
+        الشراء بنجاح</div>
+    @endif
     <div class="col-md-12">
         <div class="card">
             <div class="card-header">
@@ -49,6 +53,11 @@
                 <h4 class="mb-5">المجموع النهائي :{{$totalPrice}}</h4>
 
                 <div class="d-inline-block" id="paypal-button-container"></div>
+                <a href="{{route('credit.checkout')}}" class="d-inline-block mb-4 float-start btn bg-cart"
+                    style="text-decoration: none;">
+                    <span>بطاقة ائتمانية</span>
+                    <i class="fas fa-credit-card"></i>
+                </a>
                 <p id="result-message"></p>
 
 

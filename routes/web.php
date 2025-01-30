@@ -8,6 +8,8 @@ use App\Http\Controllers\AuthorsController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\PublishersController;
+use App\Http\Controllers\PurchaseController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -64,6 +66,8 @@ Route::post('/card', [CartController::class, 'addToCart'])->name('cart.add');
 Route::get('/cart', [CartController::class, 'viewCart'])->name('cart.view');
 Route::post('/remove-one/{book}', [CartController::class, 'removeOne'])->name('cart.remove_one');
 Route::post('/remove-all/{book}', [CartController::class, 'removeAll'])->name('cart.remove_all');
+Route::get('/checkout', [PurchaseController::class, 'creditCheckout'])->name('credit.checkout');
+Route::post('/checkout', [PurchaseController::class, 'purchase'])->name('products.purchase');
 // Route::get('/admin/books', [BooksController::class, 'index'])->name('books.index');
 // Route::get('/admin/books/create', [BooksController::class, 'create'])->name('books.create');
 // Route::post('/admin/books', [BooksController::class, 'store'])->name('books.store');
