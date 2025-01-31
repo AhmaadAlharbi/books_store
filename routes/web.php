@@ -68,6 +68,7 @@ Route::post('/remove-one/{book}', [CartController::class, 'removeOne'])->name('c
 Route::post('/remove-all/{book}', [CartController::class, 'removeAll'])->name('cart.remove_all');
 Route::get('/checkout', [PurchaseController::class, 'creditCheckout'])->name('credit.checkout');
 Route::post('/checkout', [PurchaseController::class, 'purchase'])->name('products.purchase');
+Route::get('/myprooduct', [PurchaseController::class, 'myProduct'])->name('my.product');
 // Route::get('/admin/books', [BooksController::class, 'index'])->name('books.index');
 // Route::get('/admin/books/create', [BooksController::class, 'create'])->name('books.create');
 // Route::post('/admin/books', [BooksController::class, 'store'])->name('books.store');

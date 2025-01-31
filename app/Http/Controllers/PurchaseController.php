@@ -103,4 +103,10 @@ class PurchaseController extends Controller
         }
         return redirect('/cart')->with('message', 'تم شراء المنتج بنجاح');
     }
+    public function myProduct()
+    {
+        $userId = auth()->user()->id;
+        $myBooks = User::find($userId)->purchedProduct;
+        return view('books.myProduct', compact('myBooks'));
+    }
 }
