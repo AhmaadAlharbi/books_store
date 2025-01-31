@@ -61,6 +61,7 @@ Route::prefix('/admin')->middleware('can:update-books')->group(function () {
     Route::resource('/publishers', 'App\Http\Controllers\PublishersController');
     Route::resource('/authors', 'App\Http\Controllers\AuthorsController');
     Route::resource('/users', 'App\Http\Controllers\UsersController')->middleware('can:update-users');
+    Route::get('/allproduct', [PurchaseController::class, 'allProduct'])->name('all.product');
 });
 Route::post('/card', [CartController::class, 'addToCart'])->name('cart.add');
 Route::get('/cart', [CartController::class, 'viewCart'])->name('cart.view');

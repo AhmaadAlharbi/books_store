@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use App\Models\User;
 use App\Mail\OrderMail;
+use App\Models\Shopping;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
@@ -108,5 +109,10 @@ class PurchaseController extends Controller
         $userId = auth()->user()->id;
         $myBooks = User::find($userId)->purchedProduct;
         return view('books.myProduct', compact('myBooks'));
+    }
+    public function allProduct()
+    {
+        $allBooks = Shopping::with(['user', 'book'])->where('bought', true)->get();
+        return view('admin.books.allProduct', compact('allBooks'));
     }
 }
